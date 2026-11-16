@@ -1,30 +1,260 @@
 <!DOCTYPE html>
-<html>
+<html lang="sw">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TAPP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAP - Said KAPWILE</title>
 <style>
-body{font-family:sans-serif;background:#f2f2f2;text-align:center;padding:20px}
-.card{background:white;padding:20px;border-radius:15px;max-width:400px;margin:auto;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-h1{color:#1877F2}
-button{background:#1877F2;color:white;border:none;padding:12px 20px;border-radius:10px;font-size:16px;width:100%;margin-top:10px}
-input{width:95%;padding:12px;margin-top:10px;border-radius:10px;border:1px solid #ccc}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0f0f0f;color:#fff;padding-bottom:85px}
+header{position:sticky;top:0;z-index:100;background:#000;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #ffcc00}
+.logo{font-size:22px;font-weight:900;color:#ffcc00}.logo span{color:#fff}
+.top{display:flex;gap:6px;align-items:center}
+.btn{background:#ffcc00;color:#000;border:none;padding:7px 12px;border-radius:20px;font-weight:800;cursor:pointer;font-size:13px}
+.btn-o{background:transparent;color:#fff;border:1.5px solid #ffcc00}
+.notif{position:relative;font-size:22px;cursor:pointer}
+.notif b{position:absolute;top:-8px;right:-8px;background:#ff3366;font-size:11px;padding:1px 6px;border-radius:10px}
+.search{padding:10px 12px;background:#1a1a1a;position:sticky;top:52px;z-index:99}
+.search input{width:100%;padding:11px 14px;border-radius:25px;border:none;background:#2a2a2a;color:#fff;outline:none}
+.welcome{background:linear-gradient(135deg,#ffcc00,#ff6600);color:#000;margin:12px;border-radius:15px;padding:16px;text-align:center}
+.cat-row{display:flex;gap:8px;overflow-x:auto;padding:0 12px 10px}
+.cat{background:#2a2a2a;padding:8px 14px;border-radius:20px;white-space:nowrap;font-size:13px;cursor:pointer}
+.cat.active{background:#ffcc00;color:#000;font-weight:800}
+.card{background:#1a1a1a;margin:12px;border-radius:15px;overflow:hidden;border:1px solid #2a2a2a}
+.head{display:flex;align-items:center;gap:10px;padding:11px;cursor:pointer}
+.avatar{width:45px;height:45px;border-radius:50%;background:#ffcc00;color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:19px;overflow:hidden;flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.card img,.card video{width:100%;max-height:450px;object-fit:cover;background:#000}
+.body{padding:11px}
+.price{color:#ffcc00;font-weight:900;font-size:17px}
+.actions{display:flex;justify-content:space-between;padding:10px;border-top:1px solid #2a2a2a}
+.actions button{background:none;border:none;color:#fff;font-size:14px;cursor:pointer}
+.actions button.liked{color:#ff3366}
+.call{display:block;background:#25D366;color:#fff;text-align:center;padding:11px;margin:10px;border-radius:10px;text-decoration:none;font-weight:800}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;justify-content:center;align-items:center;padding:12px;overflow-y:auto}
+.modal.show{display:flex}
+.box{background:#1a1a1a;width:100%;max-width:420px;border-radius:18px;padding:20px;border:2px solid #ffcc00;max-height:92vh;overflow-y:auto}
+.box h2{text-align:center;color:#ffcc00;margin-bottom:5px}.box p{text-align:center;color:#aaa;font-size:13px;margin-bottom:12px}
+.box input,.box select,.box textarea{width:100%;padding:11px;margin:6px 0;border-radius:10px;border:1px solid #333;background:#2a2a2a;color:#fff;outline:none}
+.box button{width:100%;padding:12px;background:#ffcc00;border:none;border-radius:10px;font-weight:900;margin-top:8px;cursor:pointer}
+.link{text-align:center;margin-top:10px;color:#ffcc00;cursor:pointer;font-size:14px}
+.close{float:right;cursor:pointer;font-size:22px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;justify-content:space-around;padding:10px 0;border-top:2px solid #ffcc00;z-index:100}
+.nav div{text-align:center;font-size:12px;cursor:pointer;color:#aaa}.nav div.active{color:#ffcc00;font-weight:800}
+.fab{position:fixed;bottom:78px;right:14px;width:58px;height:58px;background:#ffcc00;color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;cursor:pointer;z-index:90;box-shadow:0 4px 15px rgba(255,204,0,.5)}
+.profile-top{text-align:center;padding:20px 12px}
+.profile-top .avatar{width:95px;height:95px;font-size:36px;margin:0 auto 10px}
+.empty{text-align:center;padding:35px 15px;color:#aaa}
+.notif-item{background:#2a2a2a;padding:12px;border-radius:10px;margin:8px 0;text-align:left;font-size:14px}
+.reel{margin:12px;border-radius:15px;overflow:hidden;background:#000;border:1px solid #2a2a2a}
+.reel video{width:100%;max-height:520px}
 </style>
 </head>
 <body>
-<div class="card">
-<h1>TAPP 🔥</h1>
-<p>Karibu kwenye App yako!</p>
-<input id="jina" placeholder="Andika jina lako">
-<button onclick="sema()">Bonyeza Hapa</button>
-<p id="matokeo"></p>
+
+<header>
+<div class="logo">TAP<span> 🔥</span></div>
+<div class="top" id="topBtns"></div>
+<div class="notif" onclick="openNotif()">🔔<b id="notifCount">0</b></div>
+</header>
+
+<div class="search"><input id="searchInput" placeholder="🔍 Tafuta jina, bidhaa, bei..." oninput="render()"></div>
+
+<div class="welcome" id="welcomeBox">
+<h2>🇹🇿 TAP IMEFIKA!</h2>
+<p><b>Said KAPWILE</b> • Post Video • Weka Bei • Pata Pesa!</p>
+<p>Kujiunga ni BURE!</p>
 </div>
+
+<div class="cat-row">
+<div class="cat active" onclick="setCat('Zote',this)">Zote 🔥</div>
+<div class="cat" onclick="setCat('Biashara',this)">Biashara 🛍️</div>
+<div class="cat" onclick="setCat('Muziki',this)">Muziki 🎵</div>
+<div class="cat" onclick="setCat('Vipaji',this)">Vipaji ⭐</div>
+<div class="cat" onclick="setCat('Huduma',this)">Huduma 💼</div>
+<div class="cat" onclick="setCat('Reels',this)">Reels 🎬</div>
+</div>
+
+<div id="feed"></div>
+<div class="fab" onclick="openPost()">+</div>
+
+<div class="nav">
+<div class="active" onclick="goHome(this)">🏠<br>Home</div>
+<div onclick="goReels(this)">🎬<br>Reels</div>
+<div onclick="openPost()">➕<br>Post</div>
+<div onclick="openProfile()">👤<br>Profile</div>
+<div onclick="logoutBtn()">🚪<br>Toka</div>
+</div>
+
+<!-- LOGIN -->
+<div class="modal" id="loginModal"><div class="box">
+<span class="close" onclick="closeM('loginModal')">×</span>
+<h2>KARIBU TAP</h2><p>Ingia u-post na u-like</p>
+<input id="loginPhone" placeholder="Namba ya Simu 071...">
+<input type="password" id="loginPass" placeholder="Password">
+<button onclick="doLogin()">INGIA 🔓</button>
+<div class="link" onclick="switchM('loginModal','regModal')">Huna akaunti? JIUNGE BURE →</div>
+<div class="link" onclick="closeM('loginModal')">Angalia bila kujiunga 👁️</div>
+</div></div>
+
+<!-- REGISTER -->
+<div class="modal" id="regModal"><div class="box">
+<span class="close" onclick="closeM('regModal')">×</span>
+<h2>JIUNGE TAP BURE!</h2><p>Tengeneza akaunti yako</p>
+<input id="regName" placeholder="Jina Kamili - mf Said Kapwile">
+<input id="regPhone" placeholder="Namba ya Simu">
+<input type="password" id="regPass" placeholder="Weka Password">
+<select id="regType"><option>Biashara</option><option>Msanii</option><option>Mwenye Kipaji</option><option>Mteja</option></select>
+<button onclick="doRegister()">JIUNGE SASA 🚀</button>
+<div class="link" onclick="switchM('regModal','loginModal')">Umeshajiunga? INGIA</div>
+</div></div>
+
+<!-- POST -->
+<div class="modal" id="postModal"><div class="box">
+<span class="close" onclick="closeM('postModal')">×</span>
+<h2>WEKA POST / REEL 💰</h2><p>Post video au picha upate pesa!</p>
+<input id="postTitle" placeholder="Jina la bidhaa / wimbo">
+<input type="number" id="postPrice" placeholder="Bei TZS mf 25000">
+<select id="postCat"><option>Biashara</option><option>Muziki</option><option>Vipaji</option><option>Huduma</option><option>Reels</option></select>
+<textarea id="postDesc" placeholder="Maelezo mafupi..."></textarea>
+<label style="font-size:13px;color:#aaa">Chagua Picha / Video (uwezo mkubwa)</label>
+<input type="file" id="postFile" accept="video/*,image/*">
+<button onclick="savePost()">POST SASA 🔥</button>
+</div></div>
+
+<!-- PROFILE -->
+<div class="modal" id="profileModal"><div class="box">
+<span class="close" onclick="closeM('profileModal')">×</span>
+<div id="profileBox"></div>
+</div></div>
+
+<!-- NOTIF -->
+<div class="modal" id="notifModal"><div class="box">
+<span class="close" onclick="closeM('notifModal')">×</span>
+<h2>🔔 Notifications</h2>
+<div id="notifBox"></div>
+<button onclick="closeM('notifModal')">Funga</button>
+</div></div>
+
 <script>
-function sema(){
-let j=document.getElementById('jina').value;
-document.getElementById('matokeo').innerText="Karibu sana, "+j+"! App yako inafanya kazi!";
+let posts = JSON.parse(localStorage.getItem('tap_posts') || '[]');
+let users = JSON.parse(localStorage.getItem('tap_users') || '[]');
+let notifs = JSON.parse(localStorage.getItem('tap_notifs') || '[]');
+let currentUser = JSON.parse(localStorage.getItem('tap_current') || 'null');
+let cat='Zote', showMine=false, showReelsOnly=false;
+
+// AKAUNTI ZA MWANZO: Said KAPWILE (Bosi) + TAP (Official)
+if(users.length===0){
+users=[
+{name:'Said KAPWILE',phone:'0712345678',pass:'1234',type:'Bosi - Mmiliki',pic:'',bio:'Mmiliki wa TAP 🔥 | Dar es Salaam'},
+{name:'TAP Official',phone:'0700000000',pass:'tap123',type:'Official',pic:'',bio:'Akaunti rasmi ya TAP 🇹🇿'},
+{name:'Mama Ntilie',phone:'0688000000',pass:'1234',type:'Biashara',pic:'',bio:'Mafuta ya nywele asili'},
+{name:'Msanii Kapa',phone:'0755000000',pass:'1234',type:'Msanii',pic:'',bio:'Msanii - Wimbo mpya!'}
+];
+localStorage.setItem('tap_users',JSON.stringify(users));
 }
+if(posts.length===0){
+posts=[
+{id:1,name:'Said KAPWILE',phone:'0712345678',title:'Karibu TAP! App Yetu Imefika 🔥',price:0,cat:'Biashara',desc:'Mimi ni Said KAPWILE, mmiliki wa TAP. Karibu sana! Post vitu vyako hapa upate pesa!',likes:45,img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=700',isVideo:false},
+{id:2,name:'TAP Official',phone:'0700000000',title:'Viatu Vya Kisasa - Original',price:25000,cat:'Biashara',desc:'Viatu vizuri, delivery Dar es Salaam!',likes:28,img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700',isVideo:false},
+{id:3,name:'Msanii Kapa',phone:'0755000000',title:'Wimbo Mpya - Njoo Uskilize 🎵',price:0,cat:'Muziki',desc:'Wimbo mpya umetoka!',likes:32,img:'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=700',isVideo:false},
+{id:4,name:'Mama Ntilie',phone:'0688000000',title:'Mafuta Ya Nywele Asili',price:15000,cat:'Biashara',desc:'Mafuta mazuri ya kukuza nywele!',likes:18,img:'https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=700',isVideo:false}
+];
+localStorage.setItem('tap_posts',JSON.stringify(posts));
+}
+function saveAll(){localStorage.setItem('tap_posts',JSON.stringify(posts));localStorage.setItem('tap_users',JSON.stringify(users));localStorage.setItem('tap_notifs',JSON.stringify(notifs));}
+function addNotif(msg){notifs.unshift({msg,time:new Date().toLocaleTimeString()}); if(notifs.length>20) notifs=notifs.slice(0,20); saveAll(); updateNotif();}
+function updateNotif(){document.getElementById('notifCount').innerText=notifs.length;}
+function updateTop(){
+let el=document.getElementById('topBtns');
+if(currentUser){ el.innerHTML=`<span style="font-size:12px">👋 ${currentUser.name.split(' ')[0]}</span><button class="btn btn-o" onclick="doLogout()">Toka</button>`; document.getElementById('welcomeBox').style.display='none'; }
+else{ el.innerHTML=`<button class="btn btn-o" onclick="openM('loginModal')">Ingia</button><button class="btn" onclick="openM('regModal')">Jiunge</button>`; }
+}
+function openM(id){document.getElementById(id).classList.add('show')}
+function closeM(id){document.getElementById(id).classList.remove('show')}
+function switchM(a,b){closeM(a);openM(b)}
+function setCat(c,el){cat=c;showMine=false;showReelsOnly=(c==='Reels');document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));el.classList.add('active');render()}
+function goHome(el){cat='Zote';showMine=false;showReelsOnly=false;render()}
+function goReels(){cat='Reels';showReelsOnly=true;render();window.scrollTo(0,0)}
+function doRegister(){
+let name=document.getElementById('regName').value.trim(),phone=document.getElementById('regPhone').value.trim(),pass=document.getElementById('regPass').value.trim(),type=document.getElementById('regType').value;
+if(!name||!phone||!pass){alert('Jaza kila kitu!');return}
+if(users.find(u=>u.phone===phone)){alert('Namba hii ishajiunga! Ingia tu.');switchM('regModal','loginModal');return}
+let u={name,phone,pass,type,pic:'',bio:''}; users.push(u); currentUser=u; localStorage.setItem('tap_current',JSON.stringify(u)); saveAll(); closeM('regModal'); updateTop(); render(); addNotif('🎉 '+name+' amejiunga TAP!'); alert('Hongera '+name+'! Umejiunga TAP! 🎉');
+}
+function doLogin(){
+let phone=document.getElementById('loginPhone').value.trim(),pass=document.getElementById('loginPass').value.trim();
+let u=users.find(x=>x.phone===phone&&x.pass===pass);
+if(!u){alert('Namba au password sio sahihi!');return}
+currentUser=u; localStorage.setItem('tap_current',JSON.stringify(u)); closeM('loginModal'); updateTop(); render(); alert('Karibu tena '+u.name+'! 👋');
+}
+function doLogout(){currentUser=null; localStorage.removeItem('tap_current'); updateTop(); render(); alert('Umetoka. Karibu tena!')}
+function logoutBtn(){if(confirm('Unataka kutoka?')) doLogout()}
+function openPost(){if(!currentUser){alert('Jiunge kwanza ili upost!');openM('regModal');return} openM('postModal')}
+function savePost(){
+let title=document.getElementById('postTitle').value.trim(),price=document.getElementById('postPrice').value||0,cat2=document.getElementById('postCat').value,desc=document.getElementById('postDesc').value.trim(),file=document.getElementById('postFile').files[0];
+if(!title){alert('Weka jina la bidhaa!');return}
+let img='https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=700', isVideo=false;
+if(file){img=URL.createObjectURL(file); isVideo=file.type.startsWith('video');}
+let p={id:Date.now(),name:currentUser.name,phone:currentUser.phone,title,price:parseInt(price),cat:cat2,desc,likes:0,img,isVideo};
+posts.unshift(p); saveAll(); closeM('postModal'); render(); addNotif('🔥 '+currentUser.name+' ame-post: '+title); alert('Hongera! Post yako imetoka! 💰');
+}
+function likePost(id){
+let p=posts.find(x=>x.id===id); if(p){p.likes++; saveAll(); render(); addNotif('❤️ Mtu ame-like: '+p.title);}
+}
+function openNotif(){let box=document.getElementById('notifBox'); if(notifs.length===0) box.innerHTML='<p>Hakuna notification mpya bado.</p>'; else box.innerHTML=notifs.map(n=>`<div class="notif-item">${n.msg}<br><small style="color:#aaa">${n.time}</small></div>`).join(''); openM('notifModal');}
+function openProfile(){
+if(!currentUser){openM('regModal');return}
+let myPosts=posts.filter(p=>p.phone===currentUser.phone);
+let u=currentUser;
+document.getElementById('profileBox').innerHTML=`
+<div class="profile-top">
+<div class="avatar">${u.pic?`<img src="${u.pic}">`:u.name.charAt(0)}</div>
+<h2>${u.name}</h2><p>${u.type} • ${u.phone}</p><p style="color:#ccc;margin-top:6px">${u.bio||'Karibu kwenye profile yangu!'}</p>
+<p style="color:#ffcc00;margin-top:8px">📦 Posts Zangu: ${myPosts.length} • ❤️ Likes: ${myPosts.reduce((a,b)=>a+b.likes,0)}</p>
+</div>
+<label style="font-size:13px;color:#aaa">Badilisha Picha ya Profile</label>
+<input type="file" id="picInput" accept="image/*" onchange="changePic(event)">
+<label style="font-size:13px;color:#aaa">Badilisha Bio / Maelezo</label>
+<input id="bioInput" value="${u.bio||''}" placeholder="Andika bio yako...">
+<button onclick="saveBio()">HIFADHI BIO ✅</button>
+<button style="background:#25D366;color:#fff" onclick="shareProfile()">SHARE PROFILE YANGU ↗️</button>
+<div style="margin-top:15px;text-align:left"><h3 style="color:#ffcc00">Orodha ya Posts Zangu:</h3>${myPosts.length===0?'<p style="color:#aaa;margin-top:8px">Huna post bado. Bonyeza + kuweka!</p>':myPosts.map(p=>`<div style="background:#2a2a2a;padding:10px;border-radius:10px;margin:8px 0">📌 ${p.title} - ${p.price>0?'TZS '+p.price.toLocaleString():'BURE'} • ❤️ ${p.likes}</div>`).join('')}</div>
+`;
+openM('profileModal');
+}
+function changePic(e){
+let f=e.target.files[0]; if(!f) return;
+let r=new FileReader(); r.onload=function(){currentUser.pic=r.result; let idx=users.findIndex(u=>u.phone===currentUser.phone); if(idx>=0) users[idx]=currentUser; localStorage.setItem('tap_current',JSON.stringify(currentUser)); saveAll(); openProfile(); alert('Picha ya profile imebadilika! ✅')}; r.readAsDataURL(f);
+}
+function saveBio(){let b=document.getElementById('bioInput').value; currentUser.bio=b; let idx=users.findIndex(u=>u.phone===currentUser.phone); if(idx>=0) users[idx]=currentUser; localStorage.setItem('tap_current',JSON.stringify(currentUser)); saveAll(); alert('Bio imehifadhiwa! ✅'); openProfile();}
+function shareProfile(){if(navigator.share) navigator.share({title:currentUser.name+' - TAP',text:'Nifuate TAP!',url:location.href}); else alert('Copy link: '+location.href)}
+function render(){
+let q=document.getElementById('searchInput').value.toLowerCase();
+let filtered=posts.filter(p=>{
+let mCat=cat==='Zote'||p.cat===cat;
+let mSearch=!q||(p.title+' '+p.desc+' '+p.name+' '+p.price).toLowerCase().includes(q);
+let mMine=!showMine||(currentUser&&p.phone===currentUser.phone);
+let mReel=!showReelsOnly||p.cat==='Reels'||p.isVideo;
+return mCat&&mSearch&&mMine&&mReel;
+});
+let feed=document.getElementById('feed');
+if(filtered.length===0){feed.innerHTML=`<div class="empty"><h2>😔 Hakuna kitu hapa</h2><p>Jaribu kutafuta kingine au weka post mpya!</p></div>`;return}
+feed.innerHTML=filtered.map(p=>{
+let user=users.find(u=>u.phone===p.phone);
+let pic=user&&user.pic?`<img src="${user.pic}">`:p.name.charAt(0);
+let media=p.isVideo?`<video src="${p.img}" controls playsinline></video>`:`<img src="${p.img}">`;
+let badge=p.name==='Said KAPWILE'?' 👑 BOSI':p.name==='TAP Official'?' ✅ TAP':'';
+return `<div class="card">
+<div class="head" onclick="viewUser('${p.phone}')"><div class="avatar">${pic}</div><div><b>${p.name}${badge}</b><br><small style="color:#aaa">${p.phone} • ${p.cat}</small></div></div>
+${media}
+<div class="body"><b>${p.title}</b><p style="color:#ccc;font-size:13px;margin:5px 0">${p.desc||''}</p><div class="price">${p.price>0?'TZS '+p.price.toLocaleString():'BURE'}</div></div>
+<a class="call" href="https://wa.me/255${p.phone.replace(/^0/,'')}" target="_blank">📲 Wasiliana WhatsApp - ${p.phone}</a>
+<div class="actions"><button onclick="likePost(${p.id})" class="${p.likes>0?'liked':''}">❤️ ${p.likes} Like</button><button onclick="navigator.share?navigator.share({title:'${p.title}',text:'Angalia hii TAP!',url:location.href}):alert('Copy link!')">↗️ Share</button><button onclick="alert('Comment: Andika maoni yako kwa WhatsApp!')">💬 Comment</button></div>
+</div>`}).join('');
+}
+function viewUser(phone){let u=users.find(x=>x.phone===phone); if(!u) return; let my=posts.filter(p=>p.phone===phone); alert(u.name+'\n'+u.type+'\n📞 '+u.phone+'\n'+(u.bio||'')+'\n\nPosts: '+my.length); }
+updateTop(); updateNotif(); render();
 </script>
 </body>
 </html>
