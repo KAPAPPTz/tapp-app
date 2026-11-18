@@ -1,1 +1,80 @@
 
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAP - Tabasamu APP</title>
+<style>
+*{box-sizing:border-box;font-family:sans-serif}
+body{margin:0;background:#f0f2f5}
+.header{background:#1877f2;color:white;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.header b{font-size:22px}
+.header span{font-size:13px;background:white;color:#1877f2;padding:4px 10px;border-radius:20px}
+.menu{display:flex;gap:10px;background:white;padding:10px;justify-content:space-around;border-bottom:1px solid #ddd;position:sticky;top:48px}
+.menu b{color:#1877f2;cursor:pointer}
+.container{max-width:500px;margin:auto;padding:10px}
+.post-box{background:white;padding:12px;border-radius:10px;display:flex;gap:10px}
+.profile-pic{width:40px;height:40px;border-radius:50%;background:#1877f2;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+input{flex:1;border:none;background:#f0f2f5;padding:10px;border-radius:20px;outline:none}
+.post{background:white;border-radius:10px;padding:12px;margin-top:12px}
+.post-top{display:flex;gap:10px;align-items:center}
+.post-top small{color:gray}
+.actions{display:flex;justify-content:space-around;border-top:1px solid #eee;margin-top:10px;padding-top:8px;color:#555;font-size:14px}
+.actions span{cursor:pointer}
+.comment{display:flex;gap:8px;margin-top:10px}
+.comment input{font-size:13px}
+button{width:100%;padding:11px;background:#1877f2;color:white;border:none;border-radius:8px;font-weight:bold;margin-top:8px}
+#status{text-align:center;font-size:12px;color:green;padding:5px}
+</style>
+</head>
+<body>
+<div class="header"><b>TAP - Tabasamu APP</b><span>LIVE</span></div>
+<div class="menu"><b>Home</b><b>Feed</b><b>Profile</b><b>Menu</b></div>
+<div id="status">Inaunganisha na Firebase...</div>
+<div class="container">
+  <div class="post-box">
+    <div class="profile-pic">T</div>
+    <input id="postInput" placeholder="Umejisikiaje leo? Tabasamu...">
+  </div>
+  <button onclick="addPost()">POST</button>
+  <div id="feed"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCoIfERsx25cBgxngxqPEfOBh6DOzitepc",
+  authDomain: "tap-4078a.firebaseapp.com",
+  projectId: "tap-4078a",
+  storageBucket: "tap-4078a.firebasestorage.app",
+  messagingSenderId: "1011383596003",
+  appId: "1:1011383596003:web:819a333518ba1385a226d6"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+document.getElementById('status').innerText = "✅ Imeunganishwa na Firebase - tap-4078a";
+
+async function loadFeed(){
+  const q = query(collection(db, "posts"), orderBy("time","desc"));
+  const snap = await getDocs(q);
+  let html = "";
+  snap.forEach(d=>{
+    const p = d.data();
+    html += `<div class="post"><div class="post-top"><div class="profile-pic">T</div><div><b>Tabasamu User</b><br><small>Sasa hivi</small></div></div><p>${p.text}</p><div class="actions"><span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span></div><div class="comment"><div class="profile-pic" style="width:30px;height:30px;font-size:12px">T</div><input placeholder="Andika comment..."></div></div>`;
+  });
+  document.getElementById('feed').innerHTML = html || "<p style='text-align:center;color:gray'>Hakuna post bado. Kuwa wa kwanza kupost!</p>";
+}
+window.addPost = async ()=>{
+  const txt = document.getElementById('postInput').value;
+  if(!txt) return alert("Andika kwanza");
+  await addDoc(collection(db, "posts"), { text: txt, time: new Date() });
+  document.getElementById('postInput').value = "";
+  loadFeed();
+};
+loadFeed();
+</script>
+</body>
+</html>
